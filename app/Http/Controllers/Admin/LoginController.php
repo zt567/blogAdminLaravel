@@ -15,23 +15,30 @@ class LoginController extends CommonController
 {
     //
     public function login(){
+        //submit後才執行
         if($input = Input::all()){
             $code = new \Code;
             $getcode = $code->get();
             if(strtoupper($input['code'])!=$getcode){
                 return back()->with('msg','驗證碼錯誤');
             }
+            //資料庫確認
             $user = User::first();
             if($user->user_name != $input['user_name']||Crypt::decrypt($user->user_pass)!=$input['user_pass']){
                 return back()->with('msg','用戶名或密碼錯誤');
             }
+            //確認無誤存至session
             session(['user'=>$user]);
-            dd(session('user'));
-            echo 'ok';
+            return redirect('admin/index');
         }else{
             return view('admin.login');
         }
         
+    }
+
+    public function quit(){
+        session(['user'=>null]);
+        return redirect('admin/login');
     }
 
     public function crypt(){
@@ -47,6 +54,9 @@ class LoginController extends CommonController
     public function getcode(){
         $code = new \Code;
         echo $code->get(); 
+    }
+    public function root(){
+        return view('welcome');
     }
 
 }

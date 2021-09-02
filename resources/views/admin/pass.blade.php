@@ -1,3 +1,5 @@
+@extends('layouts.admin')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +21,24 @@
 <div class="result_wrap">
     <div class="result_title">
         <h3>修改密码</h3>
+        @if(count($errors)>0)
+            <div class="mark">
+                @if(is_object($errors))
+                    @foreach($errors->all() as $error)
+                        <p>{{$error}}</p>
+                    @endforeach
+                @else
+                    <p>{{$errors}}</p>
+                @endif
+            </div>
+        @endif
     </div>
 </div>
 <!--结果集标题与导航组件 结束-->
 
 <div class="result_wrap">
-    <form method="post" onsubmit="return changePass()">
-        <input type="hidden" name="_token" value="X25wGVjFqDXvq7vAUAJTjTAHfX0RhkGufucRdzGh">
+    <form method="post" accept="">
+        {{csrf_field()}}
         <table class="add_tab">
             <tbody>
             <tr>
@@ -43,7 +56,7 @@
             <tr>
                 <th><i class="require">*</i>确认密码：</th>
                 <td>
-                    <input type="password" name="password_c"> </i>再次输入密码</span>
+                    <input type="password" name="password_confirmation"> </i>再次输入密码</span>
                 </td>
             </tr>
             <tr>
@@ -59,3 +72,4 @@
 </div>
 </body>
 </html>
+@endsection

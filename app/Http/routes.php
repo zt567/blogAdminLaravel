@@ -10,22 +10,23 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+}
 
-Route::group(['middleware' => ['web']],function(){
+Route::get('/','Admin\LoginController@root');
+Route::get('/admin/login','Admin\LoginController@login');
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
 
-    Route::get('/getcode','Admin\LoginController@getcode');
-    Route::get('/makecode','Admin\LoginController@makecode');
+Route::group(['middleware' => ['web','admin.login'],'prefix'=>'admin','namespace'=>'Admin'],function(){
+    Route::any('index','IndexController@index');
+    Route::any('info','IndexController@info');
+    Route::get('quit','LoginController@quit');
+    Route::any('pass','IndexController@pass');
+
+
+    Route::resource('category','CategoryController');
 
 });
 
-    Route::get('/admin/index','Admin\IndexController@index');
-    Route::any('/admin/info','Admin\IndexController@info');
-
-
-
-    Route::any('/admin/login','Admin\LoginController@login');
-    Route::any('/admin/crypt','Admin\LoginController@crypt');
+    
