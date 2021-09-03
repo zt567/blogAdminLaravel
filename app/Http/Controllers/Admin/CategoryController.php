@@ -13,7 +13,7 @@ class CategoryController extends CommonController
     public function index(){
         $categorys = Category::all();
         // dd($categorys);
-        return view('admin.category.index')->with('data','categorys');
+        return view('admin.category.index')->with('data',$categorys);
     }
 
     //POST | category
