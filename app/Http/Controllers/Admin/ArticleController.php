@@ -71,10 +71,17 @@ class ArticleController extends CommonController
 
     //put.admin/article/{article}    更新文章
     public function update($art_id)
-    {
+    {   
         $input = Input::except('_token','_method');
-        $re = Article::where('art_id',$art_id)->update($input);
-        if($re){
+        $input['art_time'] = time();
+        $file = $input['art_thumb'];
+        //上传文件的后缀. form要有enctype="multipart/form-data"
+        $extension  = $file -> getClientOriginalExtension(); 
+        $newName = date('YmdHis').mt_rand(100,999).'.'.$extension ;
+        $path = $file -> move(base_path().'/uploads',$newName);//存到upload文件夾
+        $input['art_thumb'] = 'uploads/'.$newName;//圖片路徑入資料庫
+        $res = Article::where('art_id',$art_id)->update($input);
+        if($res){
             return redirect('admin/article');
         }else{
             return back()->with('errors','文章更新失败，请稍后重试！');

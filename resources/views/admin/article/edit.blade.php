@@ -33,7 +33,9 @@
 <!--结果集标题与导航组件 结束-->
 
 <div class="result_wrap">
-    <form action="{{url('admin/article/'.$field->art_id)}}" method="post">
+    <form action="{{url('admin/article/'.$field->art_id)}}" method="post" enctype="multipart/form-data">
+
+        <!-- put.admin/article/{article}    更新文章 -->
         <input type="hidden" name="_method" value="put">
         {{csrf_field()}}
         <table class="add_tab">
@@ -42,11 +44,10 @@
                 <th width="120">分类：</th>
                 <td>
                     <select name="cate_id">
-                        @foreach($data as $d)
-                        <option value="{{$d->cate_id}}"
-                                @if($field->cate_id==$d->cate_id) selected @endif
-                        >{{$d->_cate_name}}</option>
-                        @endforeach
+                    @foreach($data as $d)
+                    <option value="{{$d->cate_id}}" @if($field->cate_id==$d->cate_id) selected @endif>
+                    {{$d->_cate_name}}</option>';
+                    @endforeach
                     </select>
                 </td>
             </tr>
@@ -67,21 +68,11 @@
                 <td>
                     <input id="file" type="file" name="art_thumb">
                     <img id="demo" style="max-width: 350px;max-height: 100px;" />
-                    <script type="text/javascript">
-                        $('#file').change(function() {
-                              var file = $('#file')[0].files[0];
-                              var reader = new FileReader;
-                              reader.onload = function(e) {
-                                $('#demo').attr('src', e.target.result);
-                              };
-                              reader.readAsDataURL(file);
-                            });
-                    </script>
                 </td>
             </tr>
             <tr>
                 <th></th>
-                <td>123
+                <td>
                     <img alt="" id="art_thumb_img" style="max-width: 350px; max-height:100px;" src="/blog/{{$field->art_thumb}}">
                 </td>
             </tr>
