@@ -21,11 +21,11 @@ class IndexController extends CommonController
     public function pass(){
         if($input = Input::all()){
             $rules = [
-                'password'=>'required || between:1,20 || confirmed',
+                'password'=>'required || between:3,20 || confirmed',
             ];
             $message = [
                 'password.required'=>'新密碼不得為空!',
-                'password.between'=>'密碼要求1-20位之間!',
+                'password.between'=>'密碼要求3-20位之間!',
                 'password.confirmed'=>'新密碼與確認密碼不一致!',
             ];
 

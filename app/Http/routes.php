@@ -18,16 +18,14 @@ Route::any('/','Admin\LoginController@root');
 Route::any('/admin/login','Admin\LoginController@login');
 Route::any('/makecode','Admin\LoginController@makecode');
 
-
-Route::group(['middleware' => ['web','admin.login'],'prefix'=>'admin','namespace'=>'Admin'],function(){
-    Route::any('index','IndexController@index');
-    Route::any('info','IndexController@info');
-    Route::any('quit','LoginController@quit');
-    Route::any('pass','IndexController@pass');
-
-
-    Route::resource('category','CategoryController');
-
-});
-
     
+Route::group(['prefix'=>'admin','namespace'=>'Admin'], function () {
+    Route::get('index', 'IndexController@index');
+    Route::get('info', 'IndexController@info');
+    Route::get('quit', 'LoginController@quit');
+    Route::any('pass', 'IndexController@pass');
+    Route::post('cate/changeorder', 'CategoryController@changeOrder');
+    Route::resource('category', 'CategoryController');
+    Route::resource('article', 'ArticleController');
+    Route::any('upload', 'CommonController@upload');
+});
